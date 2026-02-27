@@ -1,0 +1,1 @@
+{"statusCode": 200, "body": "{\"weather\": {\"status\": \"success\", \"records\": 5, \"s3_uri\": \"s3://weather-energy-pipeline-dchau/raw/weather/year=2026/month=02/day=24/weather_20260224.json\"}, \"energy\": {\"status\": \"success\", \"records\": 5, \"s3_uri\": \"s3://weather-energy-pipeline-dchau/raw/energy/year=2026/month=02/day=24/energy_20260224.json\"}}"}
