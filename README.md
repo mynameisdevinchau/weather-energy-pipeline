@@ -1,4 +1,4 @@
-# Weather & Energy Demand Pipeline 🌤⚡
+# Weather & Energy Demand Pipeline
 
 An end-to-end data engineering pipeline that ingests daily weather and electricity demand data for 5 major US cities, transforms it using Apache Spark on AWS Glue, and makes it queryable via Athena SQL — fully automated with a daily Lambda + EventBridge schedule.
 
@@ -48,20 +48,20 @@ An end-to-end data engineering pipeline that ingests daily weather and electrici
 
 ## Data Sources
 
-| Source | API | Data | Frequency |
-|--------|-----|------|-----------|
-| [Open-Meteo](https://open-meteo.com/) | Free, no key required | Max/min/mean temp, precipitation, windspeed | Daily |
-| [EIA Open Data](https://www.eia.gov/opendata/) | Free, key required | Hourly electricity demand (MWh) by grid region | Daily |
+| Source                                         | API                   | Data                                           | Frequency |
+| ---------------------------------------------- | --------------------- | ---------------------------------------------- | --------- |
+| [Open-Meteo](https://open-meteo.com/)          | Free, no key required | Max/min/mean temp, precipitation, windspeed    | Daily     |
+| [EIA Open Data](https://www.eia.gov/opendata/) | Free, key required    | Hourly electricity demand (MWh) by grid region | Daily     |
 
 ### Cities Tracked
 
-| City | EIA Grid Region |
-|------|----------------|
-| New York | NYIS |
-| Chicago | MISO |
-| Houston | ERCO |
-| Phoenix | AZPS |
-| Los Angeles | CISO |
+| City        | EIA Grid Region |
+| ----------- | --------------- |
+| New York    | NYIS            |
+| Chicago     | MISO            |
+| Houston     | ERCO            |
+| Phoenix     | AZPS            |
+| Los Angeles | CISO            |
 
 ---
 
@@ -89,15 +89,15 @@ weather-energy-pipeline/
 
 ## AWS Infrastructure
 
-| Service | Purpose |
-|---------|---------|
-| **S3** | Data lake — raw JSON and curated Parquet storage |
-| **Lambda** | Serverless ingestion function (Python 3.11, 256MB, 120s timeout) |
-| **EventBridge** | Daily cron trigger at 6:00 AM UTC |
-| **Glue** | Managed PySpark ETL — cleans, joins, and transforms data |
-| **Glue Data Catalog** | Metadata store — makes S3 data queryable by Athena |
-| **Athena** | Serverless SQL engine on top of S3/Parquet |
-| **IAM** | Least-privilege roles for Lambda and Glue |
+| Service               | Purpose                                                          |
+| --------------------- | ---------------------------------------------------------------- |
+| **S3**                | Data lake — raw JSON and curated Parquet storage                 |
+| **Lambda**            | Serverless ingestion function (Python 3.11, 256MB, 120s timeout) |
+| **EventBridge**       | Daily cron trigger at 6:00 AM UTC                                |
+| **Glue**              | Managed PySpark ETL — cleans, joins, and transforms data         |
+| **Glue Data Catalog** | Metadata store — makes S3 data queryable by Athena               |
+| **Athena**            | Serverless SQL engine on top of S3/Parquet                       |
+| **IAM**               | Least-privilege roles for Lambda and Glue                        |
 
 ### S3 Bucket Layout
 
@@ -117,12 +117,14 @@ weather-energy-pipeline-dchau/
 ## Data Pipeline Stages
 
 ### Stage 1 — Ingestion (Lambda)
+
 - Fetches previous day's weather data for 5 cities from Open-Meteo archive API
 - Fetches 24 hourly electricity demand readings per city from EIA API
 - Uploads raw JSON to S3 with `year=/month=/day=` partitioning
 - Runs automatically every day at 6AM UTC via EventBridge
 
 ### Stage 2 — Transformation (Glue / PySpark)
+
 - Reads raw JSON from S3 with multiline parsing
 - Casts all fields to correct types (DoubleType, IntegerType)
 - Filters out null records for data quality
@@ -134,6 +136,7 @@ weather-energy-pipeline-dchau/
 - Writes output as Snappy-compressed Parquet, partitioned by date
 
 ### Stage 3 — Analytics (Athena)
+
 - Serverless SQL queries over Parquet files in S3
 - Partition pruning keeps query costs minimal
 - Glue Data Catalog provides schema management
@@ -180,6 +183,7 @@ ORDER BY avg_demand DESC;
 ## Local Setup
 
 ### Prerequisites
+
 - Python 3.10+
 - AWS CLI configured (`aws configure`)
 - EIA API key from [eia.gov/opendata](https://www.eia.gov/opendata/)
