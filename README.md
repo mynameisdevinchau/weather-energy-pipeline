@@ -8,9 +8,9 @@ An end-to-end data engineering pipeline that ingests daily weather and electrici
 
 ```
 ┌─────────────────────┐     ┌─────────────────────┐
-│   Open-Meteo API    │     │      EIA API         │
-│  (Weather Data)     │     │  (Energy Demand)     │
-└────────┬────────────┘     └──────────┬───────────┘
+│   Open-Meteo API    │     │      EIA API        │
+│  (Weather Data)     │     │  (Energy Demand)    │
+└────────┬────────────┘     └──────────┬──────────┘
          │                             │
          └──────────┬──────────────────┘
                     ▼
