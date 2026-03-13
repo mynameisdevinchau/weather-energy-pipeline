@@ -84,6 +84,8 @@ def fetch_weather_range(start_date: str, end_date: str) -> dict[str, list[dict]]
             "timezone":         "America/New_York",
         }
 
+        response  = None
+        last_error = None
         for attempt in range(6):
             try:
                 response = session.get(url, params=params, timeout=60)
@@ -91,12 +93,20 @@ def fetch_weather_range(start_date: str, end_date: str) -> dict[str, list[dict]]
                     wait = 2 ** attempt
                     print(f"⏳ Rate limited for {city['name']}, waiting {wait}s...")
                     time.sleep(wait)
+                    response = None
                     continue
                 response.raise_for_status()
                 break
-            except requests.exceptions.ConnectionError:
+            except (requests.exceptions.ConnectionError,
+                    requests.exceptions.HTTPError) as e:
+                last_error = e
                 time.sleep(2 ** attempt)
+                response = None
                 continue
+
+        # Raise loudly if all retries failed
+        if response is None:
+            raise RuntimeError(f"All 6 attempts failed for {city['name']}: {last_error}")
 
         raw   = response.json()
         daily = raw.get("daily", {})

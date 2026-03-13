@@ -1,1 +1,1 @@
-{"statusCode": 200, "body": "{\"weather\": {\"status\": \"success\", \"records\": 5, \"s3_uri\": \"s3://weather-energy-pipeline-dchau/raw/weather/year=2026/month=02/day=24/weather_20260224.json\"}, \"energy\": {\"status\": \"success\", \"records\": 5, \"s3_uri\": \"s3://weather-energy-pipeline-dchau/raw/energy/year=2026/month=02/day=24/energy_20260224.json\"}}"}
+{"statusCode": 200, "body": "{\"date\": \"2026-03-06\", \"status\": \"SUCCESS\", \"weather_records\": 50, \"energy_records\": 50, \"duration_ms\": 99940, \"errors\": []}"}
