@@ -1,12 +1,33 @@
 # Weather & Energy Demand Pipeline 🌤⚡
 
-A production-grade serverless data pipeline that ingests daily weather and electricity demand data for **50 US cities**, transforms it with Apache Spark on AWS Glue, and makes it queryable via Athena SQL — running autonomously every day with observability, alerting, and data quality enforcement built in.
-
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![AWS](https://img.shields.io/badge/AWS-Lambda%20%7C%20S3%20%7C%20Glue%20%7C%20Athena%20%7C%20DynamoDB-orange)
 ![Apache Spark](https://img.shields.io/badge/Apache-PySpark-red)
 ![SQL](https://img.shields.io/badge/SQL-Athena-lightgrey)
 ![Status](https://img.shields.io/badge/pipeline-live-brightgreen)
+
+---
+
+## Motivation
+
+Electricity demand in the US is not constant — it swings dramatically with the weather. On the hottest summer days, air conditioning can push grid demand to dangerous peaks. During cold snaps, heating loads can strain regional operators to their limits. Yet the relationship between temperature and demand varies significantly by region: a 95°F day in Phoenix looks very different on the grid than the same temperature in Seattle.
+
+Understanding this relationship at scale — across cities, seasons, and years — requires joining two datasets that are rarely combined: granular daily weather observations and hourly electricity demand by grid region. This pipeline was built to make that analysis possible.
+
+**The core question this project answers:** *How does temperature drive electricity demand across different US cities and grid regions, and how do extreme weather events stress the grid compared to seasonal norms?*
+
+To answer it reliably, the data needs to arrive every day, be trustworthy, and be structured for fast analytical queries. That's what this pipeline delivers.
+
+---
+
+## What This Enables
+
+With 3+ years of joined weather and energy data across 50 cities, this dataset supports analysis that isn't possible with either source alone:
+
+- **Seasonal demand baselines** — quantify exactly how much more electricity Chicago consumes in January vs July, and how that compares to Miami's inverse summer peak driven by air conditioning
+- **Extreme weather and grid stress** — identify days where demand spiked far above seasonal norms and correlate them to temperature outliers, cold snaps, or heat waves
+- **Regional sensitivity analysis** — compare how a 10°F temperature swing affects demand in the ERCO (Texas) grid vs the MISO (Midwest) grid, surfacing which regions are most weather-dependent
+- **Year-over-year trends** — track whether demand for heating or cooling has shifted across the 2023–2026 window, a proxy for changes in building efficiency or broader climate patterns
 
 ---
 
